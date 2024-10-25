@@ -19,15 +19,15 @@ export default defineConfig({
       imports: ['vue', '@vueuse/core'],
       /* 自动导入element plus相关函数 */
       resolvers: [ElementPlusResolver()],
-      dts: true,
-      dts: 'src/typings/auto-imports.d.ts',
+      dts: false,
+      // dts: 'src/typings/auto-imports.d.ts',
     }),
 
     Components({
       resolvers: [ElementPlusResolver()],
       dirs: ['src/components', 'src/**/components'],
-      dts: true,
-      dts: 'src/typings/components.d.ts',
+      dts: false,
+      // dts: 'src/typings/components.d.ts',
     }),
   ],
   resolve: {
