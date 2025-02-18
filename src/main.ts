@@ -7,6 +7,7 @@ import { setupStore } from './stores'
 /* element plus */
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import '@/mock' //mock模拟数据
 
 const app = createApp(App)
 /* 全局注册store */

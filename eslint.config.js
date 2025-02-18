@@ -25,6 +25,7 @@ export default [
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "off", // 关闭any类型的警告
+       'no-unused-expressions':'off'
     }
   }
 ]
