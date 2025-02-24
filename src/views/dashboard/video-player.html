@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频播放器</title>
+    <style>
+        #video-container {
+            position: relative;
+            width: fit-content;
+        }
+
+        #watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            pointer-events: none;
+        }
+
+        #controls {
+            margin-top: 10px;
+        }
+
+        #video {
+            max-width: 100vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="video-container">
+        <video id="video" controls crossorigin="anonymous">
+            <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+            您的浏览器不支持 HTML5 视频。
+        </video>
+        <div id="watermark">水印</div>
+    </div>
+    <div id="controls">
+        <input type="text" id="watermark-text" placeholder="编辑水印">
+        <button onclick="takeScreenshot()">截图</button>
+        <button onclick="startRecording()">开始录制</button>
+        <button onclick="stopRecording()">停止录制</button>
+    </div>
+    <script>
+        const video = document.getElementById('video');
+        console.log("code line-49😉 video:", video)
+        const watermark = document.getElementById('watermark');
+        const watermarkText = document.getElementById('watermark-text');
+        let mediaRecorder;
+        let recordedChunks = [];
+        let canvasStream;
+
+        watermarkText.addEventListener('input', () => {
+            watermark.textContent = watermarkText.value;
+        });
+
+        function takeScreenshot() {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.offsetWidth
+            canvas.height = video.offsetHeight;
+            const ctx = canvas.getContext('2d');
+            console.log("code line-59😂 ctx:", ctx)
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            ctx.font = '24px Arial';
+            ctx.fillStyle = 'white';
+            ctx.fillText(watermark.textContent, canvas.width / 2 - (watermark.textContent.length || 0) * 6, canvas.height / 2 + 10);
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'screenshot.png';
+            link.click();
+        }
+
+        function startRecording() {
+            recordedChunks = [];
+            const canvas = document.createElement('canvas');
+            canvas.width = video.offsetWidth;
+            canvas.height = video.offsetHeight;
+            const ctx = canvas.getContext('2d');
+            canvasStream = canvas.captureStream();//创建一个实时视频捕获的画布
+            mediaRecorder = new MediaRecorder(canvasStream);
+            mediaRecorder.ondataavailable = event => {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
+            };
+            mediaRecorder.start();
+            drawFrame(ctx, canvas);
+        }
+
+        function drawFrame(ctx, canvas) {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                ctx.font = '24px Arial';
+                ctx.fillStyle = 'white';
+                ctx.fillText(watermark.textContent, canvas.width / 2 - (watermark.textContent.length || 0) * 6, canvas.height / 2 + 10);
+                requestAnimationFrame(() => drawFrame(ctx, canvas));
+            }
+        }
+
+        function stopRecording() {
+            mediaRecorder.stop();
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'recording.webm';
+                link.click();
+            };
+        }
+    </script>
+</body>
+
+</html>

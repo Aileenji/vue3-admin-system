@@ -7,6 +7,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import IconsResolver from 'unplugin-icons/resolver'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -18,7 +19,7 @@ export default defineConfig({
       /* 自动导入vue相关函数 */
       imports: ['vue', '@vueuse/core'],
       /* 自动导入element plus相关函数 */
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver(), IconsResolver({})],
       dts: false,
       // dts: 'src/typings/auto-imports.d.ts',
     }),

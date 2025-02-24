@@ -35,5 +35,8 @@ declare global {
     x: number
     y: number
   }
+  interface Window {
+    Jessibuca: constructor
+  }
 }
 export {}

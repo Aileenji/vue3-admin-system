@@ -41,7 +41,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="app">
+  <router-view />
+  <!-- <div class="app">
     <div class="container" ref="fContainerRef">
       <Waterfall
         :bottom="20"
@@ -62,7 +63,7 @@ onUnmounted(() => {
         </template>
       </Waterfall>
     </div>
-  </div>
+  </div> -->
   <!-- <Waterfall /> -->
 </template>
 <style scoped lang="scss">
