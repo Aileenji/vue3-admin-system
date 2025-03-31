@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Message from './Message.vue'
 import InputBox from './InputBox.vue'
 import axios from 'axios'

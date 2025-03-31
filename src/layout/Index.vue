@@ -2,6 +2,8 @@
 import FsBookCard from '@/components/waterfall/FsBookCard.vue'
 import Waterfall from '@/components/waterfall/Waterfall.vue'
 import { getWaterfallList } from '@/api/waterfallApi'
+import Main from './main.vue'
+import Sidebar from './components/Sidebar/Sidebar.vue'
 
 const column = ref(4)
 const fContainerRef = ref<HTMLDivElement | null>(null)
@@ -41,7 +43,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <router-view />
+  <div class="app-wrapper">
+    <Sidebar />
+    <Main />
+  </div>
+
+  <!-- <router-view /> -->
   <!-- <div class="app">
     <div class="container" ref="fContainerRef">
       <Waterfall
@@ -67,6 +74,24 @@ onUnmounted(() => {
   <!-- <Waterfall /> -->
 </template>
 <style scoped lang="scss">
+.app-wrapper{
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .app {
   width: 100vw;
   height: 100vh;

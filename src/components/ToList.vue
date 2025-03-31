@@ -6,7 +6,7 @@
   <el-button @click="addTodo" type="primary">Add Todo</el-button>
 </template>
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import {  ref } from 'vue'
 const list = ref([
   {
     id: 1,
